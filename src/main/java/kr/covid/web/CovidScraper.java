@@ -41,7 +41,9 @@ public class CovidScraper {
             String excelFileName = "covid_status_"+ document.data()+".xlsx";
             ExcelExpoter.exportToExcel(covidStatusList,excelFileName);
 
-
+            // pdf 파일로 저장
+            String pdfFileNmae = "covid_status_"+ document.data()+".pdf";
+            PdfExporter.exportToPdf(covidStatusList,excelFileName);
 
         } catch (Exception e) {
             e.printStackTrace();
