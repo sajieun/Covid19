@@ -28,7 +28,6 @@ public class CovidScraper {
                 String location = row.select("").text().replace(",","");
                 String country = row.select("").text().replace(",","");
                 String total = row.select("").text().replace(",","");
-                String region = row.select("td").text();
 
                 covidStatusList.add(new CovidStatus(location,country,total));
             }
