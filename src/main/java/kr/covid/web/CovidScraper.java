@@ -33,6 +33,16 @@ public class CovidScraper {
                 covidStatusList.add(new CovidStatus(location,country,total));
             }
 
+            for (CovidStatus covidStatus : covidStatusList){
+                System.out.println(covidStatus);
+            }
+
+            // 엑셀 파일로 저장
+            String excelFileName = "covid_status_"+ document.data()+".xlsx";
+            ExcelExpoter.exportToExcel(covidStatusList,excelFileName);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
