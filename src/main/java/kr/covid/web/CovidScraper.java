@@ -25,7 +25,12 @@ public class CovidScraper {
 
             // 선택된 테이블 내의 각 행 출력
             for (Element row : rows) {
+                String location = row.select("").text().replace(",","");
+                String country = row.select("").text().replace(",","");
+                String total = row.select("").text().replace(",","");
                 String region = row.select("td").text();
+
+                covidStatusList.add(new CovidStatus(location,country,total));
             }
 
         } catch (Exception e) {
