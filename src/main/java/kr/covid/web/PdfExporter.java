@@ -27,7 +27,7 @@ public class PdfExporter {
             Document document =new Document(pdfDocument);
 
             // 테이블 생성 및 설정
-            float[] columnWidths = {100,50,50,50};
+            float[] columnWidths = {100,50,50};
             Table table = new Table(UnitValue.createPercentArray(columnWidths));
             String[] headers = {"지역 및 국가","환자발생 수(사망)"};
 

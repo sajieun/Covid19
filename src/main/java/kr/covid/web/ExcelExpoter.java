@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
@@ -15,13 +16,20 @@ public class ExcelExpoter {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("코로나 현황");
 
-//        헤더 행 생성
+        // 헤더 행 생성
         Row headerRow = sheet.createRow(0);
         String[] headers = {"지역 및 국가", "환자발생 수(사망)"};
 
-        // 병합된 셀 생성
-        Cell headerCell = headerRow.createCell(0);
-        headerCell.setCellValue("지역 및 국가");
+        // 병합된 헤더 셀 생성
+        CellRangeAddress mergedRegion = new CellRangeAddress(0, 0, 0, 1); // 병합할 셀 범위: A1부터 B1까지
+        sheet.addMergedRegion(mergedRegion);
+
+        // 헤더 셀 생성 및 값 설정
+        Cell headerCell1 = headerRow.createCell(0);
+        headerCell1.setCellValue(headers[0]);
+
+        Cell headerCell2 = headerRow.createCell(2);
+        headerCell2.setCellValue(headers[1]);
 
         // 데이터 행 추가
         for (int i=0;i<covidStatusList.size();i++){

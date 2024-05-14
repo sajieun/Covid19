@@ -16,33 +16,38 @@ public class CovidScraper {
         try {
             Document document = Jsoup.connect(url).get();
 
-            String title = document.select("table > thead > tr").first().text();
+            String title = document.select("thead").text();
 
-            Element table = document.select("table").first();
-            Elements rows = table.select("tbody > tr");
+            // 테이블 선택
+            Element table = document.select("tbody").first(); // 여기에 원하는 선택자를 넣으세요
+
+            // 선택된 테이블 내의 모든 행 선택
+            Elements rows = table.select("tr");
 
             List<CovidStatus> covidStatusList = new ArrayList<>();
 
             // 선택된 테이블 내의 각 행 출력
             for (Element row : rows) {
-                String location = row.select("").text().replace(",","");
-                String country = row.select("").text().replace(",","");
-                String total = row.select("").text().replace(",","");
+                String location = row.select("td.bg-gray").text();
+                System.out.println(location);
+                String country = row.select("td:nth-child(1)").text().replace(",","");
+                String total = row.select("td:nth-child(2)").text().replace(",","");
 
                 covidStatusList.add(new CovidStatus(location,country,total));
             }
+
 
             for (CovidStatus covidStatus : covidStatusList){
                 System.out.println(covidStatus);
             }
 
             // 엑셀 파일로 저장
-            String excelFileName = "covid_status_"+ document.data()+".xlsx";
+            String excelFileName = "covid_status.xlsx";
             ExcelExpoter.exportToExcel(covidStatusList,excelFileName);
 
             // pdf 파일로 저장
-            String pdfFileNmae = "covid_status_"+ document.data()+".pdf";
-            PdfExporter.exportToPdf(covidStatusList,excelFileName);
+            String pdfFileNmae = "covid_status.pdf";
+            PdfExporter.exportToPdf(covidStatusList,pdfFileNmae);
 
         } catch (Exception e) {
             e.printStackTrace();
